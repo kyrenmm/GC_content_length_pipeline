@@ -1,0 +1,27 @@
+import os
+
+def pipeline_for_fasta(input_files, output_file):
+    with open(output_file, 'w') as output:
+        for input_file in input_files:
+            with open(input_file, 'r') as file:
+                sequences = file.read().split('>')[1:]  # Split sequences by '>' if multiple sequences in a file
+                first_sequence_processed = False  # Flag to track if the first sequence is processed
+                for seq in sequences:
+                    if not first_sequence_processed:  # Process only the first sequence
+                        seq_info = seq.strip().split('\n', 1)  # Split title and sequence
+                        title = seq_info[0] #characterizes title for later
+                        title_words = title.split()[1:5]  # Extract second through fifth words as this is the section of the title that has a descriptor of what the sequence is for
+                        processed_title = ' '.join(title_words) #takes the words and joins them to get a clean title
+                        sequence = seq_info[1].replace('\n', '')  # Remove newline characters to prevent formatting issues
+                        output.write(f"{processed_title}\n{sequence}\n") #generate title then the sequence on the second line
+                        first_sequence_processed = True  # Set the flag to True after processing the first sequence
+
+
+
+folder_path = "abc/"
+input_filenames = [os.path.join(folder_path, file) for file in os.listdir(folder_path) if file.endswith('.fna')]
+
+output_filename = "aa_seqs.txt"
+
+pipeline_for_fasta(input_filenames, output_filename)
+print("saved to aa_seqs.txt")
