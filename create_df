@@ -1,0 +1,43 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.stats import linregress
+
+with open('percentages_aa_seqs.txt', 'r') as file:   # Read the data from the file
+    data = file.read()
+
+entries = data.strip().split('\n\n')    # Splitting the text into entries
+
+titles = []    # Creating lists to store values
+gc_percentages = []
+genome_lengths = []
+thermophilicity = []
+
+for entry in entries:     # Extracting values and populating lists
+    lines = entry.split('\n')
+    title = lines[0].split(': ')[1]
+    gc = float(lines[1].split(': ')[1][:-1])  # Removing the % and converting to float
+    length = int(lines[2].split(': ')[1])
+    
+    titles.append(title)
+    gc_percentages.append(gc)
+    genome_lengths.append(length)
+    
+    if 'Desulfotalea psychrophila' in title or 'Methanococcoides burtonii' in title or 'Colwellia psychrerythraea' in title:
+        thermophilicity.append('Psychrophilic')
+    elif 'Alicyclobacillus acidocaldarius' in title or 'Thermus aquaticus' in title or 'Geobacillus stearothermophilus' in title:
+        thermophilicity.append('Thermophilic')
+    elif 'Pyrococcus furiosus' in title or 'Pyrolobus fumarii' in title or 'Pyrodictium occultum' in title:
+        thermophilicity.append('Hyperthermophilic')
+    else:
+        thermophilicity.append('Mesophilic')
+
+df = pd.DataFrame({      # Creating a DataFrame
+    'Title': titles,
+    'GC Percentage': gc_percentages,
+    'Genome length': genome_lengths,
+    'Thermophilicity': thermophilicity
+})
+
+print(df)
