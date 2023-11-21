@@ -1,2 +1,2 @@
 # GC_content_length_pipeline
-The goal of this project is to create an efficient pipeline to take fasta files and create an output file that inlcudes the organisms name, GC content and sequence length.
+The goal of this project is to create an efficient pipeline to take fasta files and create an output file that inlcudes the organisms name, GC content and sequence length. The order in which the code is meant to be run is from project_fasta_file_reader, and gc_content_reader if you only want the output file, and finally create_df if you want a data frame in python to run an analysis for.
