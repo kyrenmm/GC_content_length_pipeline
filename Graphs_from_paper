@@ -1,0 +1,34 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(8, 6))
+sns.regplot(x='Genome length', y='GC Percentage', data=df, scatter_kws={'s': 80}, line_kws={'color': 'red'})
+plt.title('Scatterplot of Genome Length vs. GC Content with Trendline')
+plt.xlabel('Genome Length')
+plt.ylabel('GC Percentage')
+correlation_matrix = df[['Genome length', 'GC Percentage']].corr()  # R-squared value
+r_squared = correlation_matrix.loc['Genome length', 'GC Percentage'] ** 2
+plt.text(0.5, 0.95, f'R-squared = {r_squared:.2f}', horizontalalignment='center', 
+verticalalignment='center', transform=plt.gca().transAxes, bbox=dict(facecolor='white', alpha=0.5))
+plt.show()
+
+
+thermophilicity_order = ['Psychrophilic', 'Mesophilic', 'Thermophilic', 'Hyperthermophilic'] # Order
+plt.figure(figsize=(8, 6)) # Create a scatterplot
+sns.stripplot(x='Thermophilicity', y='GC Percentage', data=df, hue='Thermophilicity', palette='viridis', 
+order=thermophilicity_order, jitter=True, dodge=True)
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', title='Thermophilicity') # Legend
+plt.title('Scatterplot of Thermophilicity vs. GC Content')
+plt.xlabel('Thermophilicity')
+plt.ylabel('GC Percentage')
+plt.show()
+
+
+thermophilicity_order = ['Psychrophilic', 'Mesophilic', 'Thermophilic', 'Hyperthermophilic']  # Order
+plt.figure(figsize=(10, 6))   # Create a scatterplot
+sns.stripplot(x='Thermophilicity', y='Genome length', data=df, order=thermophilicity_order, palette='viridis', jitter=True)
+plt.title('Scatterplot of Thermophilicity vs. Genome Length')
+plt.xlabel('Thermophilicity')
+plt.ylabel('Genome Length')
+plt.show()
